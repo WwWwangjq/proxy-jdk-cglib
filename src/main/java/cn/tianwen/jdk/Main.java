@@ -13,9 +13,9 @@ import java.lang.reflect.Proxy;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        // 接口没有实现类
+        // 需要代理的接口
         Class<?>[] interfaces = new Class[]{IMyService.class};
-        // 通过在InvocationHandler中声明一些逻辑
+        // 声明代理逻辑
         InvocationHandler h = new MyInvocationHandler();
         // 创建代理类
         IMyService proxy = (IMyService) Proxy.newProxyInstance(Main.class.getClassLoader(), interfaces, h);
@@ -24,6 +24,7 @@ public class Main {
         outputClassFile();
     }
 
+    /** 将代理类的运行时数据结构输出到磁盘上成为字节码文件 利用反编译观察 */
     private static void outputClassFile() throws Exception {
         byte[] bytes = ProxyGenerator.generateProxyClass("$proxy0", new Class[]{IMyService.class});
         FileOutputStream fos = new FileOutputStream("C:\\work space\\wangjq\\proxy-jdk-cglib\\src\\main\\java\\cn\\tianwen\\jdk\\MyJdkProxy.class");
